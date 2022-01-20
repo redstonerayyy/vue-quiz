@@ -3,10 +3,11 @@
     <p class="question">{{ question }}</p>
     <div class="answers">
       <Answer
-        @answer-clicked="$emit('answer-clicked', text)"
+        @answer-clicked="answerClicked"
         :text="answer"
         :key="answer"
         v-for="answer in answers"
+        :right="answered && answer === right ? true : false"
       />
     </div>
   </div>
@@ -21,10 +22,17 @@ export default {
     question: String,
     right: String,
     answers: Array,
+    answered: Boolean,
   },
   components: {
     Answer,
   },
+  methods: {
+    answerClicked(answer) {
+      this.$emit("answer-clicked", answer);
+    },
+  },
+  emits: ["answer-clicked"],
 };
 </script>
 
@@ -34,6 +42,7 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  user-select: none;
 }
 
 .answers {
@@ -46,5 +55,6 @@ export default {
 
 .question {
   margin: 100px;
+  text-align: center;
 }
 </style>

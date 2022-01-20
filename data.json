@@ -1,234 +1,121 @@
 {
-    "response_code": 0,
     "results": [
         {
-            "category": "Entertainment: Film",
+            "category": "Science: Computers",
             "type": "multiple",
             "difficulty": "medium",
-            "question": "Which of the following is NOT a quote from the 1942 film Casablanca? ",
-            "correct_answer": "&quot;Frankly, my dear, I don&#039;t give a damn.&quot;",
+            "question": "Nvidia&#039;s headquarters are based in which Silicon Valley city?",
+            "correct_answer": "Santa Clara",
             "incorrect_answers": [
-                "&quot;Here&#039;s lookin&#039; at you, kid.&quot;",
-                "&ldquo;Of all the gin joints, in all the towns, in all the world, she walks into mine&hellip;&rdquo;",
-                "&quot;Round up the usual suspects.&quot;"
+                "Palo Alto",
+                "Cupertino",
+                "Mountain View"
             ]
         },
         {
             "category": "Entertainment: Television",
             "type": "multiple",
-            "difficulty": "medium",
-            "question": "From what show is the character &quot;James Doakes&quot;? ",
-            "correct_answer": "Dexter",
+            "difficulty": "easy",
+            "question": "Guy&#039;s Grocery Games is hosted by which presenter?",
+            "correct_answer": "Guy Fieri",
             "incorrect_answers": [
-                "Marvel&#039;s Daredevil",
-                "Boardwalk Empire",
-                "The Walking Dead"
+                "Guy Martin",
+                "Guy Ritchie",
+                "Ainsley Harriott"
             ]
         },
         {
-            "category": "General Knowledge",
+            "category": "Entertainment: Video Games",
             "type": "multiple",
-            "difficulty": "medium",
-            "question": "What does a milliner make and sell?",
-            "correct_answer": "Hats",
+            "difficulty": "hard",
+            "question": "How long was the World Record Speed Run of Valve Software&#039;s &quot;Half-Life&quot; that was done in 2014.",
+            "correct_answer": "20 Minutes, 41 Seconds",
             "incorrect_answers": [
-                "Shoes",
-                "Belts",
-                "Shirts"
-            ]
-        },
-        {
-            "category": "History",
-            "type": "boolean",
-            "difficulty": "medium",
-            "question": "The first televised presidential debate was between Jimmy Carter and Gerald Ford.",
-            "correct_answer": "False",
-            "incorrect_answers": [
-                "True"
+                "45 Minutes, 32 Seconds",
+                "5 Minutes, 50 Seconds",
+                "12 Minutes, 59 Seconds"
             ]
         },
         {
             "category": "Entertainment: Music",
-            "type": "multiple",
-            "difficulty": "medium",
-            "question": "Which popular rock band has a one-armed drummer?",
-            "correct_answer": "Def Leppard",
-            "incorrect_answers": [
-                "The Beatles",
-                "Lynyrd Skynyrd",
-                "Foreigner"
-            ]
-        },
-        {
-            "category": "Entertainment: Board Games",
             "type": "boolean",
             "difficulty": "easy",
-            "question": "There is a Donald Trump Board Game, which was made in 1989.",
+            "question": "Daft Punk originated in France.",
             "correct_answer": "True",
             "incorrect_answers": [
                 "False"
             ]
         },
         {
-            "category": "Entertainment: Video Games",
-            "type": "multiple",
-            "difficulty": "medium",
-            "question": "In the game Destiny, who succeeded Peter Dinklage in voicing the protagonist&#039;s &quot;Ghost&quot;?",
-            "correct_answer": "Nolan North",
-            "incorrect_answers": [
-                "John DiMaggio",
-                "Mark Hamill",
-                " Troy Baker"
-            ]
-        },
-        {
-            "category": "General Knowledge",
-            "type": "boolean",
-            "difficulty": "easy",
-            "question": "The Lego Group was founded in 1932.",
-            "correct_answer": "True",
-            "incorrect_answers": [
-                "False"
-            ]
-        },
-        {
-            "category": "Celebrities",
-            "type": "multiple",
-            "difficulty": "easy",
-            "question": "Aubrey Graham is better known as",
-            "correct_answer": "Drake",
-            "incorrect_answers": [
-                "Travis Scott",
-                "Lil Wayne",
-                "2 Chainz"
-            ]
-        },
-        {
-            "category": "Entertainment: Video Games",
-            "type": "multiple",
-            "difficulty": "easy",
-            "question": "When was Left 4 Dead 2 released?",
-            "correct_answer": "November 17, 2009",
-            "incorrect_answers": [
-                "May 3, 2008",
-                "November 30, 2009",
-                "June 30, 2010"
-            ]
-        },
-        {
-            "category": "Entertainment: Cartoon & Animations",
-            "type": "multiple",
-            "difficulty": "easy",
-            "question": "Which of these characters live in a pineapple under the sea in the cartoon &quot;SpongeBob SquarePants&quot;.",
-            "correct_answer": "SpongeBob SquarePants ",
-            "incorrect_answers": [
-                "Patrick Star",
-                "Squidward Tentacles",
-                "Mr. Krabs"
-            ]
-        },
-        {
-            "category": "Entertainment: Video Games",
+            "category": "Science: Computers",
             "type": "multiple",
             "difficulty": "hard",
-            "question": "In &quot;The Witness&quot;, how many lasers must be activated to get into the mountain area?",
-            "correct_answer": "7",
+            "question": "America Online (AOL) started out as which of these online service providers?",
+            "correct_answer": "Quantum Link",
             "incorrect_answers": [
-                "8",
-                "5",
-                "12"
-            ]
-        },
-        {
-            "category": "Entertainment: Video Games",
-            "type": "multiple",
-            "difficulty": "easy",
-            "question": "What is the name of the main protagonist in &quot;Xenoblade Chronicles&quot;?",
-            "correct_answer": "Shulk",
-            "incorrect_answers": [
-                "Reyn",
-                "Fiora",
-                "Dunban"
-            ]
-        },
-        {
-            "category": "Sports",
-            "type": "multiple",
-            "difficulty": "easy",
-            "question": "The Los Angeles Dodgers were originally from what U.S. city?",
-            "correct_answer": "Brooklyn",
-            "incorrect_answers": [
-                "Las Vegas",
-                "Boston",
-                "Seattle"
-            ]
-        },
-        {
-            "category": "Sports",
-            "type": "boolean",
-            "difficulty": "easy",
-            "question": "There are a total of 20 races in Formula One 2016 season.",
-            "correct_answer": "False",
-            "incorrect_answers": [
-                "True"
-            ]
-        },
-        {
-            "category": "Entertainment: Television",
-            "type": "multiple",
-            "difficulty": "easy",
-            "question": "In the cartoon &#039;SpongeBob SquarePants&#039;, what did the acronym E.V.I.L stand for?",
-            "correct_answer": "Every Villain Is Lemons",
-            "incorrect_answers": [
-                "Every Villain Is Lemonade",
-                "Every Villain Is Limes",
-                "Each Villain Is Lemonade"
+                "CompuServe",
+                "Prodigy",
+                "GEnie"
             ]
         },
         {
             "category": "History",
             "type": "multiple",
-            "difficulty": "hard",
-            "question": "The Bohemian Revolt (1618-1620) started after Protestants in Prague did what to their Catholic Lords Regents?",
-            "correct_answer": "Threw them out of a window",
+            "difficulty": "easy",
+            "question": "Who led the Communist Revolution of Russia?",
+            "correct_answer": "Vladimir Lenin",
             "incorrect_answers": [
-                "Insulted their mothers",
-                "Locked them in stockades",
-                "Hung them."
+                "Joseph Stalin",
+                "Vladimir Putin",
+                "Mikhail Gorbachev"
+            ]
+        },
+        {
+            "category": "Mythology",
+            "type": "multiple",
+            "difficulty": "medium",
+            "question": "According to Japanese folklore, what is the favorite food of the Kappa.",
+            "correct_answer": "Cucumbers",
+            "incorrect_answers": [
+                "Kabocha",
+                "Nasu",
+                "Soba"
+            ]
+        },
+        {
+            "category": "Entertainment: Video Games",
+            "type": "multiple",
+            "difficulty": "medium",
+            "question": "What character is NOT apart of the Grand Theft Auto series?",
+            "correct_answer": "Michael Cardenas",
+            "incorrect_answers": [
+                "Packie McReary",
+                "Tommy Vercetti",
+                "Lester Crest"
             ]
         },
         {
             "category": "Science: Computers",
-            "type": "boolean",
-            "difficulty": "easy",
-            "question": "The Python programming language gets its name from the British comedy group &quot;Monty Python.&quot;",
-            "correct_answer": "True",
-            "incorrect_answers": [
-                "False"
-            ]
-        },
-        {
-            "category": "Vehicles",
             "type": "multiple",
             "difficulty": "medium",
-            "question": "Which of these cars is NOT considered one of the 5 Modern Supercars by Ferrari?",
-            "correct_answer": "Testarossa",
+            "question": "How many bits make up the significand portion of a single precision floating point number?",
+            "correct_answer": "23",
             "incorrect_answers": [
-                "Enzo Ferrari",
-                "F40",
-                "288 GTO"
+                "8",
+                "53",
+                "15"
             ]
         },
         {
-            "category": "Entertainment: Musicals & Theatres",
+            "category": "General Knowledge",
             "type": "multiple",
-            "difficulty": "easy",
-            "question": "Who wrote the play &#039;Angels in America&#039;?",
-            "correct_answer": "Tony Kusher",
+            "difficulty": "hard",
+            "question": "In &quot;Resident Evil 3&quot;, how many inventory slots does Jill have at the start of the game?",
+            "correct_answer": "10",
             "incorrect_answers": [
-                "Tom Stoppard",
-                "Matthew Lopez",
-                "Anthony Neilson"
+                "6",
+                "8",
+                "12"
             ]
         }
     ]

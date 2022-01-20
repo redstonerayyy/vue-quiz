@@ -1,5 +1,9 @@
 <template>
-  <span @click="$emit('answer-clicked', text)">{{ text }}</span>
+  <span
+    @click="$emit('answer-clicked', text)"
+    :class="[right ? 'right' : '']"
+    >{{ text }}</span
+  >
 </template>
 
 <script>
@@ -7,6 +11,7 @@ export default {
   name: "Answer",
   props: {
     text: String,
+    right: Boolean,
   },
 };
 </script>
@@ -22,6 +27,13 @@ span {
   border-radius: 20px;
   margin: 20px;
   min-width: 200px;
-  user-select: none;
+}
+
+span:hover {
+  background: olive;
+}
+
+.right {
+  border-color: greenyellow;
 }
 </style>
