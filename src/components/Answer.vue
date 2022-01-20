@@ -1,8 +1,11 @@
 <template>
-  <span
+  <v-chip
+    :color="right ? 'green' : 'black'"
+    :outlined="right ? false : true"
+    label
+    large
     @click="$emit('answer-clicked', text)"
-    :class="[right ? 'right' : '']"
-    >{{ text }}</span
+    >{{ text }}</v-chip
   >
 </template>
 
@@ -30,7 +33,7 @@ span {
 }
 
 span:hover {
-  background: olive;
+  background: rgb(223, 223, 223);
 }
 
 .right {
