@@ -4,13 +4,18 @@ import VueRouter from "vue-router";
 import Question from "../views/Question.vue";
 import Profile from "../views/Profile.vue";
 import About from "../views/About.vue";
+import Home from "../views/Home.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
+    path: "/quiz",
     component: Question
+  },
+  {
+    path: "/home",
+    component: Home
   },
   {
     path: "/profile",

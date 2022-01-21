@@ -14,7 +14,8 @@ export default {
   name: "Bar",
   data: () => ({
     links: [
-      ["Quiz", "/"],
+      ["Home", "/home"],
+      ["Quiz", "/quiz"],
       ["Profile", "/profile"],
       ["About", "/about"],
     ],

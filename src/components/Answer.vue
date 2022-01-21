@@ -1,10 +1,12 @@
 <template>
   <v-chip
-    :color="right ? 'green' : 'black'"
-    :outlined="right ? false : true"
+    :color="color"
+    :outlined="
+      answer_correct && this.$store.state.questions.isAnswered ? false : true
+    "
     label
     large
-    @click="$emit('answer-clicked', text)"
+    @click="answerClicked"
     >{{ text }}</v-chip
   >
 </template>
@@ -14,7 +16,32 @@ export default {
   name: "Answer",
   props: {
     text: String,
-    right: Boolean,
+    answer_correct: Boolean,
+  },
+  computed: {
+    color() {
+      if (this.answer_correct && this.$store.state.questions.isAnswered) {
+        return "green";
+      } else {
+        if (this.$store.state.questions.isAnswered && this.clicked) {
+          return "red";
+        } else if (
+          this.$store.state.questions.timeEnded &&
+          this.answer_correct
+        ) {
+          return "green";
+        } else {
+          return "black";
+        }
+      }
+    },
+  },
+  methods: {
+    answerClicked() {
+      this.clicked = true;
+      this.$emit("answer-clicked");
+      this.$store.commit("setCurrentAnswer", this.text);
+    },
   },
 };
 </script>
@@ -23,20 +50,7 @@ export default {
 span {
   width: 40%;
   padding: 20px;
-  height: 100px;
-  text-align: center;
-  vertical-align: middle;
-  border: 1px solid grey;
-  border-radius: 20px;
   margin: 20px;
   min-width: 200px;
-}
-
-span:hover {
-  background: rgb(223, 223, 223);
-}
-
-.right {
-  border-color: greenyellow;
 }
 </style>
