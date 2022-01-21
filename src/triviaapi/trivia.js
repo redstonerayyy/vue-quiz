@@ -52,8 +52,24 @@ class TriviaAPI {
   }
 }
 
-const axios = require("axios");
-const express = require("express");
+import axios from "axios";
+import express from "express";
+import { join, dirname } from "path";
+import { Low, JSONFile } from "lowdb";
+import { fileURLToPath } from "url";
+
+// Use JSON file for storage
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const file = join(__dirname, "db.json");
+const adapter = new JSONFile(file)
+const db = new Low(adapter)
+
+await db.read()
+db.data ||= { posts: [] }
+const { posts } = db.data
+
+// You can also use this syntax if you prefer
+await db.write()
 
 const trivia = new TriviaAPI();
 const app = express();

@@ -25,7 +25,6 @@ const mutations = {
     state.questions.isClickDisabled = boolean;
   },
   setCurrentAnswer(state, answer) {
-    console.log("answer");
     state.questions.current_answer = answer;
   },
   incrementWrongCount(state) {
