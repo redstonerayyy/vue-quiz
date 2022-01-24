@@ -29,10 +29,8 @@ export default {
     };
   },
   watch: {
-    selected: function (newval, oldval) {
-      console.log(newval, oldval);
-      this.$store.commit("setSelect", [this.name, this.selected]);
-      console.log(this.$store.state.settings.selects);
+    selected: function () {
+      this.$store.commit("setSelect", [this.select_name, this.selected]);
     },
   },
   methods: {

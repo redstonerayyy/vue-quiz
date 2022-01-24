@@ -19,7 +19,7 @@ class TriviaAPI {
     });
     this.request(this.getToken()).then((data) => {
       this.token = data.data.token;
-    })
+    });
   }
 
   async request(url) {

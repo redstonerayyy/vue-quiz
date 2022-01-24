@@ -21,7 +21,11 @@ const store = new Vuex.Store({
       timeEnded: false,
     },
     settings: {
-      selects: {},
+      selects: {
+        type: [],
+        difficulty: [],
+        category: [],
+      },
     },
     stats: {
       total: 0,

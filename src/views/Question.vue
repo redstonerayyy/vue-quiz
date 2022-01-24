@@ -79,10 +79,8 @@ export default {
       urlparams.append("category", category);
       urlparams.append("difficulty", difficulty);
       urlparams.append("type", type);
-      console.log("test");
       let res = await fetch("/api?request=question&" + urlparams.toString());
       let json = await res.json();
-      console.log(json);
       //TODO handle response code
       if (json.response_code !== 0) {
         alert("Error fetching question");

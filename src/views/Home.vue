@@ -23,6 +23,7 @@
     <div class="select" v-if="start">
       <div class="simple">
         <v-text-field
+          v-model="number"
           label="Number of Questions"
           :rules="rules"
           hide-details="auto"
@@ -63,6 +64,7 @@ export default {
       categories: [],
       selectall: false,
       selected: [],
+      number: "",
       rules: [
         (value) => !!value || "Required.",
         (value) => {
@@ -97,8 +99,30 @@ export default {
         }
       }
     },
-    startQuiz() {},
+    startQuiz() {
+      if (this.canStart) {
+        //TODO fetchQuestions into seperate file
+        this.$router.push("quiz");
+      }
+    },
     startEndless() {},
+  },
+  computed: {
+    canStart() {
+      //console.log(this.number);
+      //console.log(!isNaN(parseFloat(this.number)));
+      if (!isNaN(parseFloat(this.number))) {
+        let num = Number(this.number);
+        return (
+          num >= 1 &&
+          num <= 1000 &&
+          this.$store.state.settings.selects["type"].length > 0 &&
+          this.$store.state.settings.selects["category"].length > 0 &&
+          this.$store.state.settings.selects["difficulty"].length > 0
+        );
+      }
+      return false;
+    },
   },
 };
 </script>
