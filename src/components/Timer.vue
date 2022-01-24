@@ -10,3 +10,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+p {
+  margin: 10px;
+}
+</style>

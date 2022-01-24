@@ -7,12 +7,14 @@
           v-if="this.$store.state.questions.current_question"
         >
           <p class="question">{{ question_text }}</p>
-          <p>
-            Total:{{ stats_total }} Right:{{ stats_right }} Wrong:{{
-              stats_wrong
-            }}
-            Unanswered:{{ stats_unanswered }}
-          </p>
+          <div class="stats-container">
+            <span class="total stats-counter">Total: {{ stats_total }} </span>
+            <span class="right stats-counter">Right: {{ stats_right }} </span>
+            <span class="wrong stats-counter">Wrong: {{ stats_wrong }} </span>
+            <span class="unanswered stats-counter"
+              >Unanswered: {{ stats_unanswered }}
+            </span>
+          </div>
           <Timer :time="this.time" />
           <div class="answers">
             <Answer
@@ -64,6 +66,12 @@ export default {
         this.stopTimer();
         this.prepareNextQuestion();
       }
+    },
+    timeEnded() {
+      this.$store.commit("setIsAnswered", false);
+      this.$store.commit("setIsClickDisabled", true);
+      this.$store.state.questions.timeEnded = true;
+      this.prepareNextQuestion();
     },
     async fetchQuestion() {
       let res = await fetch("api");
@@ -119,15 +127,10 @@ export default {
         this.startTimer();
       }, 2000);
     },
-    timeEnded() {
-      this.$store.commit("setIsClickDisabled", true);
-      this.$store.state.questions.timeEnded = true;
-      this.$store.commit("setIsAnswered", false);
-      this.prepareNextQuestion();
-    },
     startTimer() {
       this.setTime(15);
       this.timer = setInterval(() => {
+        console.log(this.time);
         this.time -= 1;
         if (this.time < 1) {
           this.stopTimer();
@@ -142,7 +145,7 @@ export default {
       clearInterval(this.timer);
     },
   },
-  async created() {
+  created() {
     this.fetchQuestion().then(() => {
       this.$store.commit("nextQuestion");
       this.startTimer();
@@ -176,5 +179,36 @@ export default {
 
 .col-main {
   justify-content: center;
+}
+
+.stats-counter {
+  border-radius: 5px;
+  color: white;
+  padding: 5px;
+  margin: 10px;
+  display: inline-block;
+}
+
+.total {
+  background: blue;
+}
+
+.right {
+  background: green;
+}
+
+.wrong {
+  background: red;
+}
+
+.unanswered {
+  background: turquoise;
+}
+
+.stats-countainer {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: row;
 }
 </style>
