@@ -73,10 +73,20 @@ export default {
       this.$store.state.questions.timeEnded = true;
       this.prepareNextQuestion();
     },
-    async fetchQuestion() {
-      let res = await fetch("api");
+    async fetchQuestions(amount, category, difficulty, type) {
+      let urlparams = new URLSearchParams();
+      urlparams.append("amount", amount);
+      urlparams.append("category", category);
+      urlparams.append("difficulty", difficulty);
+      urlparams.append("type", type);
+      console.log("test");
+      let res = await fetch("/api?request=question&" + urlparams.toString());
       let json = await res.json();
+      console.log(json);
       //TODO handle response code
+      if (json.response_code !== 0) {
+        alert("Error fetching question");
+      }
       let question = json.results[0];
       //decode html entities like &#23;
       question.question_text = this.decodeHtmlEntities(
@@ -107,7 +117,7 @@ export default {
       return textarea.value;
     },
     async prepareNextQuestion() {
-      this.fetchQuestion();
+      this.fetchQuestions(1, "", "", "");
       setTimeout(() => {
         //add to stats
         if (
@@ -146,11 +156,11 @@ export default {
     },
   },
   created() {
-    this.fetchQuestion().then(() => {
+    this.fetchQuestions(1, "", "", "").then(() => {
       this.$store.commit("nextQuestion");
       this.startTimer();
     });
-    this.fetchQuestion();
+    this.fetchQuestions(1, "", "", "");
   },
 };
 </script>

@@ -38,7 +38,10 @@ const mutations = {
   },
   incrementTotalCount(state) {
     state.stats.total++;
-  }
-}
+  },
+  setSelect(state, value) {
+    state.settings.selects[value[0]] = value[1];
+  },
+};
 
 export default mutations;

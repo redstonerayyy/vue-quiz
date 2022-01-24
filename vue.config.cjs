@@ -5,9 +5,16 @@ module.exports = {
         target: "http://localhost:3000",
         changeOrigin: true,
         logLevel: "debug",
-        pathRewrite: { "^/api": "/" },
+        pathRewrite: { "^/api": "/api" },
+      },
+      "^/stats": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+        logLevel: "debug",
+        pathRewrite: { "^/stats": "/stats" },
       }
-    }
+    },
+
   },
   transpileDependencies: ["vuetify"],
 };

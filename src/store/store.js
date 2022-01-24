@@ -9,7 +9,7 @@ const store = new Vuex.Store({
   state: {
     login: {
       loggedin: false,
-      username: "anton"
+      username: "anton",
     },
     questions: {
       fetched: [],
@@ -20,14 +20,17 @@ const store = new Vuex.Store({
       isClickDisabled: false,
       timeEnded: false,
     },
+    settings: {
+      selects: {},
+    },
     stats: {
       total: 0,
       right: 0,
       wrong: 0,
-      not_answered: 0
-    }
+      not_answered: 0,
+    },
   },
-  mutations: mutations
+  mutations: mutations,
 });
 
 export default store;
