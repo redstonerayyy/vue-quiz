@@ -62,8 +62,6 @@ export default {
       types: [],
       difficulties: [],
       categories: [],
-      selectall: false,
-      selected: [],
       number: "",
       rules: [
         (value) => !!value || "Required.",
@@ -84,6 +82,9 @@ export default {
         let globalinfo = await fetch("/api?request=globalinfo");
         let cgdata = await categories.json();
         let gdata = await globalinfo.json();
+        //store
+        this.$store.state.globalinfo = gdata;
+        this.$store.state.categoryinfo = cgdata;
         this.categories = cgdata.trivia_categories.map(
           (category) => category.name
         );
@@ -91,17 +92,12 @@ export default {
         this.types = gdata.types;
       }
     },
-    selectAll() {
-      this.selected = [];
-      if (this.selectall) {
-        for (let i in this.categories) {
-          this.selected.push(this.categories[i].name);
-        }
-      }
-    },
     startQuiz() {
       if (this.canStart) {
         //TODO fetchQuestions into seperate file
+        this.$store.state.settings.number = Number(this.number);
+        this.$store.state.questions.isFinished = false;
+        this.$store.commit("resetCurrentQuiz");
         this.$router.push("quiz");
       }
     },
@@ -109,8 +105,6 @@ export default {
   },
   computed: {
     canStart() {
-      //console.log(this.number);
-      //console.log(!isNaN(parseFloat(this.number)));
       if (!isNaN(parseFloat(this.number))) {
         let num = Number(this.number);
         return (

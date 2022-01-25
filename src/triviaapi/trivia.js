@@ -78,7 +78,7 @@ class TriviaAPI {
 
 import axios from "axios";
 import express from "express";
-import { join, dirname } from "path";
+import { dirname } from "path";
 import { Low, JSONFile } from "lowdb";
 import { fileURLToPath } from "url";
 
@@ -102,7 +102,6 @@ app.get("/api", async (req, res) => {
   for (let [name, value] of urlparams) {
     urldata[name] = value;
   }
-  console.log(urldata);
   let data;
   switch (urldata.request) {
     case "globalinfo":
@@ -128,20 +127,19 @@ app.get("/api", async (req, res) => {
           trivia.token
         )
       );
-      console.log(trivia.makeURL(
-        urldata.amount,
-        urldata.category,
-        urldata.difficulty,
-        urldata.type,
-        trivia.token
-      ));
+
+      //console.log(data.data.response_code);
       if (data.data.response_code === 4) {
-        this.request(this.getToken()).then((data) => {
-          this.token = data.data.token;
+        trivia.request(trivia.getToken()).then((data) => {
+          trivia.token = data.data.token;
         });
-        data = await trivia.request(trivia.makeURL(1, "", "", ""));
+        console.log("other");
+        data = await trivia.request(
+          trivia.makeURL(1, urldata.category, urldata.difficulty, urldata.type)
+        );
         res.send(JSON.stringify(data.data));
       } else {
+        console.log("normal");
         res.send(JSON.stringify(data.data));
       }
       break;

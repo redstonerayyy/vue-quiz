@@ -19,6 +19,7 @@ const store = new Vuex.Store({
       isAnswer_correct: false,
       isClickDisabled: false,
       timeEnded: false,
+      isFinished: false,
     },
     settings: {
       selects: {
@@ -26,13 +27,23 @@ const store = new Vuex.Store({
         difficulty: [],
         category: [],
       },
+      number: null,
     },
     stats: {
       total: 0,
       right: 0,
       wrong: 0,
       not_answered: 0,
+      current_quiz: {
+        total: 0,
+        right: 0,
+        wrong: 0,
+        not_answered: 0,
+      },
     },
+    timer: false,
+    globalinfo: null,
+    categoryinfo: null,
   },
   mutations: mutations,
 });

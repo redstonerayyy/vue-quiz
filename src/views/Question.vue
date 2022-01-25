@@ -14,8 +14,19 @@
             <span class="unanswered stats-counter"
               >Unanswered: {{ stats_unanswered }}
             </span>
+            <span class="remaining"
+              >{{ this.$store.state.stats.current_quiz.total }} /
+              {{ this.$store.state.settings.number }}</span
+            >
           </div>
-          <Timer :time="this.time" />
+          <v-progress-linear
+            :value="
+              (this.$store.state.stats.current_quiz.total /
+                this.$store.state.settings.number) *
+              100
+            "
+          ></v-progress-linear>
+          <p>{{ this.time }}</p>
           <div class="answers">
             <Answer
               @answer-clicked="answerClicked"
@@ -26,6 +37,24 @@
             />
           </div>
         </div>
+        <div v-if="this.$store.state.questions.isFinished">
+          <p style="text-align: center">Stats for this Quiz</p>
+          <div class="stats-container">
+            <span class="total stats-counter"
+              >Total: {{ this.$store.state.stats.current_quiz.total }}
+            </span>
+            <span class="right stats-counter"
+              >Right: {{ this.$store.state.stats.current_quiz.right }}
+            </span>
+            <span class="wrong stats-counter"
+              >Wrong: {{ this.$store.state.stats.current_quiz.wrong }}
+            </span>
+            <span class="unanswered stats-counter"
+              >Unanswered:
+              {{ this.$store.state.stats.current_quiz.not_answered }}
+            </span>
+          </div>
+        </div>
       </v-col>
     </v-row>
   </v-container>
@@ -33,19 +62,17 @@
 
 <script>
 import Answer from "../components/Answer.vue";
-import Timer from "../components/Timer.vue";
+import Timer from "../scripting/Timer";
 import { mapState } from "vuex";
+import fetchQuestions from "../scripting/FetchQuestions";
 
 export default {
   name: "Home",
   components: {
     Answer,
-    Timer,
   },
   data() {
-    return {
-      time: 15,
-    };
+    return {};
   },
   computed: mapState({
     question_text: (state) => state.questions.current_question.question_text,
@@ -56,109 +83,102 @@ export default {
     stats_wrong: (state) => state.stats.wrong,
     stats_unanswered: (state) => state.stats.not_answered,
     stats_total: (state) => state.stats.total,
+    time: (state) => (state.timer.time ? state.timer.time : ""),
   }),
+  watch: {
+    $route: function () {
+      this.$store.state.timer.reset();
+    },
+  },
   methods: {
+    startQuestion() {
+      this.$store.state.questions.timeEnded = false;
+      this.$store.commit("setIsClickDisabled", false);
+      this.$store.commit("setIsAnswered", false);
+      this.$store.commit("setIsAnswerCorrect", false);
+      this.$store.state.timer = new Timer(15, 1, this.timeEnded);
+      this.$store.state.timer.start();
+    },
     answerClicked() {
       //check so clicking multiple times doesn't spawn a number of setInterval processes
       if (!this.$store.state.questions.isClickDisabled) {
-        this.$store.commit("setIsAnswered", true);
         this.$store.commit("setIsClickDisabled", true);
-        this.stopTimer();
+        this.$store.state.timer.stop();
+        this.$store.commit("setIsAnswered", true);
         this.prepareNextQuestion();
       }
     },
     timeEnded() {
-      this.$store.commit("setIsAnswered", false);
       this.$store.commit("setIsClickDisabled", true);
       this.$store.state.questions.timeEnded = true;
+      this.$store.commit("setIsAnswered", false);
       this.prepareNextQuestion();
     },
-    async fetchQuestions(amount, category, difficulty, type) {
-      let urlparams = new URLSearchParams();
-      urlparams.append("amount", amount);
-      urlparams.append("category", category);
-      urlparams.append("difficulty", difficulty);
-      urlparams.append("type", type);
-      let res = await fetch("/api?request=question&" + urlparams.toString());
-      let json = await res.json();
-      //TODO handle response code
-      if (json.response_code !== 0) {
-        alert("Error fetching question");
-      }
-      let question = json.results[0];
-      //decode html entities like &#23;
-      question.question_text = this.decodeHtmlEntities(
-        json.results[0].question
-      );
-      question.correct_answer = this.decodeHtmlEntities(
-        json.results[0].correct_answer
-      );
-      question.answers = [
-        ...question.incorrect_answers,
-        question.correct_answer,
-      ].map((el) => this.decodeHtmlEntities(el));
-      //reorder answers
-      if (question.type === "multiple") {
-        for (let i = 0; i < question.answers.length; i++) {
-          question.answers = question.answers.sort(() => 0.5 > Math.random());
-        }
+    prepareNextQuestion() {
+      //add to stats
+      if (
+        this.$store.state.questions.current_question.correct_answer ===
+        this.$store.state.questions.current_answer
+      ) {
+        this.$store.commit("incrementRightCount");
+      } else if (!this.$store.state.questions.isAnswered) {
+        this.$store.commit("incrementUnansweredCount");
       } else {
-        question.answers = ["True", "False"];
+        this.$store.commit("incrementWrongCount");
       }
-      //add to store
-      this.$store.commit("addQuestion", question);
-      return true;
-    },
-    decodeHtmlEntities(str) {
-      var textarea = document.createElement("textarea");
-      textarea.innerHTML = str;
-      return textarea.value;
-    },
-    async prepareNextQuestion() {
-      this.fetchQuestions(1, "", "", "");
+      this.$store.commit("incrementTotalCount");
       setTimeout(() => {
-        //add to stats
-        if (
-          this.$store.state.questions.current_question.correct_answer ===
-          this.$store.state.questions.current_answer
-        ) {
-          this.$store.commit("incrementRightCount");
-        } else if (!this.$store.state.questions.isAnswered) {
-          this.$store.commit("incrementUnansweredCount");
+        //next question
+        if (this.$store.state.questions.fetched.length <= 0) {
+          this.questionsFinished();
         } else {
-          this.$store.commit("incrementWrongCount");
+          this.$store.commit("nextQuestion");
+          this.startQuestion();
         }
-        this.$store.commit("incrementTotalCount");
-        this.$store.state.questions.timeEnded = false;
-        this.$store.commit("nextQuestion");
-        this.$store.commit("setIsClickDisabled", false);
-        this.startTimer();
       }, 2000);
     },
-    startTimer() {
-      this.setTime(15);
-      this.timer = setInterval(() => {
-        console.log(this.time);
-        this.time -= 1;
-        if (this.time < 1) {
-          this.stopTimer();
-          this.timeEnded();
-        }
-      }, 1000);
-    },
-    setTime(time) {
-      this.time = time;
-    },
-    stopTimer() {
-      clearInterval(this.timer);
+    questionsFinished() {
+      console.log("finished");
+      this.$store.state.questions.current_question = false;
+      this.$store.state.questions.isFinished = true;
     },
   },
   created() {
-    this.fetchQuestions(1, "", "", "").then(() => {
-      this.$store.commit("nextQuestion");
-      this.startTimer();
-    });
-    this.fetchQuestions(1, "", "", "");
+    if (!this.$store.state.questions.isFinished) {
+      let selected_categories = this.$store.state.settings.selects.category;
+      let category_ids =
+        this.$store.state.categoryinfo.trivia_categories.filter((category) => {
+          if (selected_categories.includes(category.name)) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+      category_ids = category_ids.map((category) => category.id);
+      for (let i = 0; i < this.$store.state.settings.number; i++) {
+        fetchQuestions(
+          1,
+          category_ids[Math.floor(category_ids.length * Math.random())],
+          this.$store.state.settings.selects.difficulty[
+            Math.floor(
+              this.$store.state.settings.selects.difficulty.length *
+                Math.random()
+            )
+          ],
+          this.$store.state.settings.selects.type[
+            Math.floor(
+              this.$store.state.settings.selects.type.length * Math.random()
+            )
+          ]
+        ).then((questions) => {
+          this.$store.commit("addQuestion", questions[0]);
+          if (!this.$store.state.questions.current_question) {
+            this.$store.commit("nextQuestion");
+            this.startQuestion();
+          }
+        });
+      }
+    }
   },
 };
 </script>
