@@ -42,8 +42,8 @@ const store = new Vuex.Store({
       },
     },
     timer: false,
-    globalinfo: null,
-    categoryinfo: null,
+    globalinfo: false,
+    categoryinfo: false,
   },
   mutations: mutations,
 });

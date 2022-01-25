@@ -65,6 +65,7 @@ import Answer from "../components/Answer.vue";
 import Timer from "../scripting/Timer";
 import { mapState } from "vuex";
 import fetchQuestions from "../scripting/FetchQuestions";
+import syncWithBackend from "../scripting/SyncWithBackend";
 
 export default {
   name: "Home",
@@ -138,13 +139,16 @@ export default {
       }, 2000);
     },
     questionsFinished() {
-      console.log("finished");
       this.$store.state.questions.current_question = false;
       this.$store.state.questions.isFinished = true;
+      syncWithBackend();
     },
   },
   created() {
-    if (!this.$store.state.questions.isFinished) {
+    if (
+      !this.$store.state.questions.isFinished &&
+      this.$store.state.categoryinfo.trivia_categories
+    ) {
       let selected_categories = this.$store.state.settings.selects.category;
       let category_ids =
         this.$store.state.categoryinfo.trivia_categories.filter((category) => {

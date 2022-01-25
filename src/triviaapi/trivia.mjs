@@ -1,4 +1,6 @@
-class TriviaAPI {
+import axios from "axios";
+
+export default class TriviaAPI {
   constructor() {
     this.difficulties = ["easy", "medium", "hard"];
     this.types = ["multiple", "boolean"];
@@ -75,83 +77,3 @@ class TriviaAPI {
     return url;
   }
 }
-
-import axios from "axios";
-import express from "express";
-import { dirname } from "path";
-import { Low, JSONFile } from "lowdb";
-import { fileURLToPath } from "url";
-
-// Use JSON file for storage
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const adapter = new JSONFile(__dirname + "/db.json");
-const db = new Low(adapter)
-
-await db.read()
-db.data ||= { data: [] };
-const { dbdata } = db.data;
-
-await db.write()
-
-const trivia = new TriviaAPI();
-const app = express();
-
-app.get("/api", async (req, res) => {
-  let urlparams = new URLSearchParams(req.query);
-  let urldata = {};
-  for (let [name, value] of urlparams) {
-    urldata[name] = value;
-  }
-  let data;
-  switch (urldata.request) {
-    case "globalinfo":
-      res.send(JSON.stringify(trivia.globalinfo));
-      break;
-
-    case "categoryinfo":
-      data = await trivia.request(trivia.getCategoryInfo(urldata.category));
-      res.send(JSON.stringify(data.data));
-      break;
-
-    case "categories":
-      res.send(JSON.stringify(trivia.categoryinfo));
-      break;
-
-    case "question":
-      data = await trivia.request(
-        trivia.makeURL(
-          urldata.amount,
-          urldata.category,
-          urldata.difficulty,
-          urldata.type,
-          trivia.token
-        )
-      );
-
-      //console.log(data.data.response_code);
-      if (data.data.response_code === 4) {
-        trivia.request(trivia.getToken()).then((data) => {
-          trivia.token = data.data.token;
-        });
-        console.log("other");
-        data = await trivia.request(
-          trivia.makeURL(1, urldata.category, urldata.difficulty, urldata.type)
-        );
-        res.send(JSON.stringify(data.data));
-      } else {
-        console.log("normal");
-        res.send(JSON.stringify(data.data));
-      }
-      break;
-    default:
-      break;
-  }
-});
-
-app.get("/stats", (req, res) => {
-  console.log("stats");
-});
-
-app.listen(3000, () => {
-  console.log("Listening on port 3000");
-});
