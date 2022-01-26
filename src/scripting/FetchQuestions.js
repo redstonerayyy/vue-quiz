@@ -13,8 +13,7 @@ async function fetchQuestions(amount, category, difficulty, type) {
   let json = await res.json();
   //TODO handle response code
   if (json.response_code !== 0) {
-    console.log(json);
-    alert("Error fetching question");
+    //
   }
   //store the question in a special format
   let questions_as_json = json.results;

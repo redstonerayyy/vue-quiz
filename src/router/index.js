@@ -11,20 +11,20 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/quiz",
-    component: Question
+    component: Question,
   },
   {
     path: "/home",
-    component: Home
+    component: Home,
   },
   {
     path: "/profile",
-    component: Profile
+    component: Profile,
   },
   {
     path: "/about",
-    component: About
-  }
+    component: About,
+  },
 ];
 
 const router = new VueRouter({

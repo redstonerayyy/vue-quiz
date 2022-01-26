@@ -9,7 +9,7 @@ const store = new Vuex.Store({
   state: {
     login: {
       loggedin: false,
-      username: "anton",
+      username: false,
     },
     questions: {
       fetched: [],

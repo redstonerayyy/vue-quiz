@@ -41,18 +41,16 @@ app.get("/api", async (req, res) => {
         )
       );
 
-      //console.log(data.data.response_code);
+      console.log(data.data.response_code);
       if (data.data.response_code === 4) {
         trivia.request(trivia.getToken()).then((data) => {
           trivia.token = data.data.token;
         });
-        console.log("other");
         data = await trivia.request(
           trivia.makeURL(1, urldata.category, urldata.difficulty, urldata.type)
         );
         res.send(JSON.stringify(data.data));
       } else {
-        console.log("normal");
         res.send(JSON.stringify(data.data));
       }
       break;
@@ -61,12 +59,42 @@ app.get("/api", async (req, res) => {
   }
 });
 
+app.use(express.json());
+
 app.get("/user", (req, res) => {
-  console.log("stats");
+  let urlparams = new URLSearchParams(req.query);
+  let urldata = {};
+  for (let [name, value] of urlparams) {
+    urldata[name] = value;
+  }
+  findUser(urldata.username).then((user) => {
+    if (user.length > 0) {
+      res.send({ ...user[0], found: true });
+    } else {
+      res.send({ found: false });
+    }
+  });
 });
 
 app.post("/user", (req, res) => {
-  //
+  let user = req.body;
+  findUser(req.body.username).then((users) => {
+    if (users.length > 0) {
+      let knownuser = users[0];
+      knownuser.total = user.total;
+      knownuser.unanswered = user.unanswered;
+      knownuser.wrong = user.wrong;
+      knownuser.right = user.right;
+      knownuser.save();
+    } else {
+      storeUser(user.username, user.email, user.password, {
+        total: user.total,
+        unanswered: user.unanswered,
+        wrong: user.wrong,
+        right: user.right,
+      })
+    }
+  })
 });
 
 app.listen(3000, () => {

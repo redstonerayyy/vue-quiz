@@ -65,7 +65,6 @@ import Answer from "../components/Answer.vue";
 import Timer from "../scripting/Timer";
 import { mapState } from "vuex";
 import fetchQuestions from "../scripting/FetchQuestions";
-import syncWithBackend from "../scripting/SyncWithBackend";
 
 export default {
   name: "Home",
@@ -110,8 +109,9 @@ export default {
       }
     },
     timeEnded() {
-      this.$store.commit("setIsClickDisabled", true);
       this.$store.state.questions.timeEnded = true;
+      this.$store.commit("setIsClickDisabled", true);
+      this.$store.state.timer.stop();
       this.$store.commit("setIsAnswered", false);
       this.prepareNextQuestion();
     },
@@ -141,10 +141,26 @@ export default {
     questionsFinished() {
       this.$store.state.questions.current_question = false;
       this.$store.state.questions.isFinished = true;
-      syncWithBackend();
+      if (this.$store.state.login.loggedin) {
+        fetch("/user", {
+          method: "post",
+          body: JSON.stringify({
+            username: this.$store.state.login.username,
+            email: "",
+            password: "",
+            total: this.$store.state.stats.total,
+            unanswered: this.$store.state.stats.not_answered,
+            wrong: this.$store.state.stats.wrong,
+            right: this.$store.state.stats.right,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      }
     },
   },
-  created() {
+  async created() {
     if (
       !this.$store.state.questions.isFinished &&
       this.$store.state.categoryinfo.trivia_categories
@@ -237,7 +253,7 @@ export default {
   background: turquoise;
 }
 
-.stats-countainer {
+.stats-container {
   display: flex;
   justify-content: center;
   align-content: center;

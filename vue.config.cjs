@@ -7,11 +7,11 @@ module.exports = {
         logLevel: "debug",
         pathRewrite: { "^/api": "/api" },
       },
-      "^/stats": {
+      "^/user": {
         target: "http://localhost:3000",
         changeOrigin: true,
         logLevel: "debug",
-        pathRewrite: { "^/stats": "/stats" },
+        pathRewrite: { "^/stats": "/user" },
       }
     },
 

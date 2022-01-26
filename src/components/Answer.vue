@@ -38,9 +38,9 @@ export default {
   },
   methods: {
     answerClicked() {
+      this.$store.state.questions.current_answer = this.text;
       this.clicked = true;
       this.$emit("answer-clicked");
-      this.$store.commit("setCurrentAnswer", this.text);
     },
   },
 };

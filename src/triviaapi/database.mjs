@@ -5,16 +5,24 @@ const UserSchema = new mongoose.Schema({
   username: String,
   email: String,
   password: String,
+  total: Number,
+  unanswered: Number,
+  wrong: Number,
+  right: Number,
 });
 
 const User = mongoose.model("User", UserSchema);
 
-export async function storeUser(name, email, password) {
+export async function storeUser(name, email, password, stats) {
   let hash = await hashpassword(password);
   let newuser = new User({
     username: name,
     email: email,
     password: hash,
+    total: stats.total,
+    unanswered: stats.unanswered,
+    wrong: stats.wrong,
+    right: stats.right,
   });
   return await newuser.save();
 }
