@@ -27,7 +27,6 @@
           label="Number of Questions"
           :rules="rules"
           hide-details="auto"
-          value=""
         ></v-text-field>
         <Multicheck :select_name="'difficulty'" :options="difficulties" />
         <Multicheck :select_name="'type'" :options="types" />
@@ -62,7 +61,7 @@ export default {
       types: [],
       difficulties: [],
       categories: [],
-      number: "",
+      number: "5",
       rules: [
         (value) => !!value || "Required.",
         (value) => {
@@ -156,7 +155,7 @@ export default {
 
 .scroll-container {
   overflow-y: scroll;
-  height: 500px;
+  height: 700px;
   padding: 10px;
 }
 </style>

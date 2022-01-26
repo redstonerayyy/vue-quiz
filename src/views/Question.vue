@@ -14,18 +14,20 @@
             <span class="unanswered stats-counter"
               >Unanswered: {{ stats_unanswered }}
             </span>
-            <span class="remaining"
-              >{{ this.$store.state.stats.current_quiz.total }} /
-              {{ this.$store.state.settings.number }}</span
-            >
           </div>
           <v-progress-linear
             :value="
-              (this.$store.state.stats.current_quiz.total /
+              ((this.$store.state.stats.current_quiz.total + 1) /
                 this.$store.state.settings.number) *
               100
             "
-          ></v-progress-linear>
+            height="20"
+            rounded
+            ><span class="remaining"
+              >Frage {{ this.$store.state.stats.current_quiz.total + 1 }} /
+              {{ this.$store.state.settings.number }}</span
+            ></v-progress-linear
+          >
           <p>{{ this.time }}</p>
           <div class="answers">
             <Answer

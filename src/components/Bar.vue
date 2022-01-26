@@ -5,7 +5,11 @@
         {{ link[0] }}
       </v-tab>
     </v-tabs>
-    <v-avatar color="indigo" size="44"></v-avatar>
+    <v-avatar color="indigo" size="44">{{
+      this.$store.state.login.username[0]
+        ? this.$store.state.login.username[0].toUpperCase()
+        : ""
+    }}</v-avatar>
   </v-app-bar>
 </template>
 

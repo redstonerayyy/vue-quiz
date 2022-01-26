@@ -49,6 +49,10 @@ app.get("/api", async (req, res) => {
         data = await trivia.request(
           trivia.makeURL(1, urldata.category, urldata.difficulty, urldata.type)
         );
+        if (data.data.response_code !== 0) {
+          data = await trivia.request(trivia.makeURL(1, urldata.category));
+        }
+        console.log(data);
         res.send(JSON.stringify(data.data));
       } else {
         res.send(JSON.stringify(data.data));

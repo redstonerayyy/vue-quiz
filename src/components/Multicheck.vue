@@ -4,6 +4,7 @@
       v-model="selectall"
       @click="selectAll"
       label="Select All"
+      dense
     ></v-checkbox>
     <v-checkbox
       v-model="selected"
@@ -11,6 +12,7 @@
       :label="option"
       :key="option"
       :value="option"
+      dense
     ></v-checkbox>
   </div>
 </template>
