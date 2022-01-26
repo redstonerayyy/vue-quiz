@@ -24,11 +24,26 @@
             height="20"
             rounded
             ><span class="remaining"
-              >Frage {{ this.$store.state.stats.current_quiz.total + 1 }} /
-              {{ this.$store.state.settings.number }}</span
+              >Frage
+              {{
+                this.$store.state.stats.current_quiz.total + 1 >
+                this.$store.state.settings.number
+                  ? this.$store.state.settings.number
+                  : this.$store.state.stats.current_quiz.total + 1
+              }}
+              / {{ this.$store.state.settings.number }}</span
             ></v-progress-linear
           >
-          <p>{{ this.time }}</p>
+          <v-progress-linear
+            style="margin-top: 20px"
+            :value="(this.time / 15) * 100"
+            height="20"
+            rounded
+            ><span class="remaining"
+              >Seconds Remaining {{ this.time }}</span
+            ></v-progress-linear
+          >
+          <p></p>
           <div class="answers">
             <Answer
               @answer-clicked="answerClicked"
@@ -118,19 +133,19 @@ export default {
       this.prepareNextQuestion();
     },
     prepareNextQuestion() {
-      //add to stats
-      if (
-        this.$store.state.questions.current_question.correct_answer ===
-        this.$store.state.questions.current_answer
-      ) {
-        this.$store.commit("incrementRightCount");
-      } else if (!this.$store.state.questions.isAnswered) {
-        this.$store.commit("incrementUnansweredCount");
-      } else {
-        this.$store.commit("incrementWrongCount");
-      }
-      this.$store.commit("incrementTotalCount");
       setTimeout(() => {
+        //add to stats
+        if (
+          this.$store.state.questions.current_question.correct_answer ===
+          this.$store.state.questions.current_answer
+        ) {
+          this.$store.commit("incrementRightCount");
+        } else if (!this.$store.state.questions.isAnswered) {
+          this.$store.commit("incrementUnansweredCount");
+        } else {
+          this.$store.commit("incrementWrongCount");
+        }
+        this.$store.commit("incrementTotalCount");
         //next question
         if (this.$store.state.questions.fetched.length <= 0) {
           this.questionsFinished();

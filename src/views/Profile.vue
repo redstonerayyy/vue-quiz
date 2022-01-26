@@ -78,10 +78,8 @@ export default {
       if (this.canlogin) {
         let res = await fetch(`/user?username=${this.username}`);
         let data = await res.json();
-        if (data.found) {
+        if (data.found && !this.$store.state.login.loggedin) {
           let user = data._doc;
-          this.$store.state.login.loggedin = true;
-          this.$store.state.login.username = user.username;
           this.$store.state.stats.total =
             user.total + this.$store.state.stats.total;
           this.$store.state.stats.not_answered =
@@ -91,6 +89,8 @@ export default {
           this.$store.state.stats.right =
             user.right + this.$store.state.stats.right;
         }
+        this.$store.state.login.loggedin = true;
+        this.$store.state.login.username = this.username;
         await fetch("/user", {
           method: "post",
           body: JSON.stringify({
