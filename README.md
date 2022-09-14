@@ -6,8 +6,11 @@ export NODE_OPTIONS=--openssl-legacy-provider
 
 ```
 yay -S mongodb-bin
+yay -S mongodb-compass
+//create databases quiz
 sudo systemctl start mongodb
 sudo systemctl enable mongodb
+
 ```
 
 ## Project setup
