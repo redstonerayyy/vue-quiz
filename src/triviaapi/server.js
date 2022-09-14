@@ -2,9 +2,8 @@ import express from "express";
 import TriviaAPI from "./trivia.mjs";
 import { findUser, storeUser, connect, deleteUsers } from "./database.mjs";
 
-connect("mongodb://localhost:27017/quiz").then(() => {
-  //
-});
+connect("mongodb://localhost:27017/quiz")
+    .catch(error => console.log(error));
 
 const trivia = new TriviaAPI();
 const app = express();
@@ -41,7 +40,7 @@ app.get("/api", async (req, res) => {
         )
       );
 
-      console.log(data.data.response_code);
+    //   console.log(data.data.response_code);
       if (data.data.response_code === 4) {
         trivia.request(trivia.getToken()).then((data) => {
           trivia.token = data.data.token;
@@ -52,7 +51,7 @@ app.get("/api", async (req, res) => {
         if (data.data.response_code !== 0) {
           data = await trivia.request(trivia.makeURL(1, urldata.category));
         }
-        console.log(data);
+        // console.log(data);
         res.send(JSON.stringify(data.data));
       } else {
         res.send(JSON.stringify(data.data));

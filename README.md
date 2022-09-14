@@ -1,4 +1,14 @@
 # vue-quiz
+```
+if "error:0308010C:digital envelope routines::unsupported" do
+export NODE_OPTIONS=--openssl-legacy-provider
+```
+
+```
+yay -S mongodb-bin
+sudo systemctl start mongodb
+sudo systemctl enable mongodb
+```
 
 ## Project setup
 ```

@@ -36,5 +36,5 @@ export async function deleteUsers(name) {
 }
 
 export async function connect(url) {
-  await mongoose.connect(url);
+  await mongoose.connect(url, { family: 4});
 }
